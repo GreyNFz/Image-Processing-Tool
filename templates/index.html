@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shutter X</title>
+    <style>
+        body {
+            background-color: rgb(255, 232, 186);
+            font-family: Arial, sans-serif;
+            
+            text-align: center;
+        }
+
+        h1 {
+            color: #fb0069;
+        }
+
+        hr {
+            border: 1px solid #ccc;
+        }
+
+        .upload-form {
+            margin: 20px;
+        }
+
+        .upload-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+           
+        }
+
+        .image-container {
+        display: flex;
+        justify-content: space-around;
+        }
+
+        .image-frame {
+        width: 30%; /* Change this to 50% to reduce the size to half */
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .image {
+            max-width: 100%;
+        }
+
+        .manipulation-form {
+            margin: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        select, input[type="number"] {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .apply-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+        }
+
+        .option-group{
+            display: inline-block;
+        }
+
+        </style>
+</head>
+<body>
+    <h1>Shutter X</h1>
+
+    <!-- Upload Form -->
+    <form class="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image">
+        <input class="upload-button" type="submit" value="Upload">
+    </form>
+
+    <hr>
+
+        <!-- Display Original Image and Modified Image in Separate Frames -->
+        <div class="image-container">
+            <div class="image-frame">
+                <h3>Original Image</h3>
+                <img class="image" src="{{ original_image }}" alt="Original Image">
+            </div>
+            <div class="image-frame">
+                <h3>Modified Image</h3>
+                <img class="image" src="{{ modified_image }}" alt="Modified Image">
+            </div>
+        </div>
+
+    <hr>
+
+    <!-- Image Manipulation Options -->
+    <h2>Editing Tools</h2>
+    <form class="manipulation-form" action="/process" method="POST">
+        <input type="hidden" name="original_image" value="{{ original_image }}">
+        <label for="color">Color Change:</label>
+        <select name="color" id="color">
+            <option value="color">Color</option>
+            <option value="bw">Black & White</option>
+            <option value="grayscale">Grayscale</option>
+        </select>
+
+        <label for="rotation">Rotation:</label>
+        <input type="number" name="rotation" id="rotation" min="0" max="360" step="1">
+
+        <label for="crop">Cropping (left, top, right, bottom):</label>
+        <input type="number" name="left" id="left" min="0">
+        <input type="number" name="top" id="top" min="0">
+        <input type="number" name="right" id="right" min="0">
+        <input type="number" name="bottom" id="bottom" min="0">
+
+        <!-- Group 1: Flipping Options -->
+        <div class="option-group">
+            <label for="flip">Flipping:</label>
+            <select name="flip" id="flip">
+                <option value="none">None</option>
+                <option value="horizontal">Horizontal</option>
+                <option value="vertical">Vertical</option>
+            </select>
+        </div>
+
+        <!-- Group 2: Smoothing Type Options -->
+        <div class="option-group">
+            <label for="smoothing_type">Smoothing Type:</label>
+            <select name="smoothing_type" id="smoothing_type">
+                <option value="average">Average</option>
+                <option value="gaussian">Gaussian</option>
+                <option value="median">Median</option>
+            </select>
+        </div>
+
+        <!-- Group 3: Filter Options -->
+    <div class="option-group">
+        <label for="filter">Filter:</label>
+        <select name="filter" id="filter">
+            <option value="filter">Filter</option>
+            <option value="sepia">Sepia</option>
+            <option value="invert">Invert</option>
+            <option value="grayscale">Grayscale</option>
+        </select>
+    </div>
+
+        <label for="operation">Image Enhancement:</label>
+        <select name="operation" id="operation">
+            <option value="none">None</option>
+            <option value="reduce_noise">Reduce Noise</option>
+            <option value="enhance_sharpness">Enhance Sharpness</option>
+        </select>
+
+        
+        <input class="apply-button" type="submit" value="Apply Changes">
+    </form>
+</body>
+</html>
